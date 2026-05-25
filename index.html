@@ -9,6 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -532,6 +533,82 @@ body{-webkit-tap-highlight-color:transparent}
   .ach-card.feat{grid-column:span 1}
 }
 
+/* ══ MOBILE NAV FIXES ══ */
+@media(max-width:768px){
+  .nav-top{padding:10px 14px 0;gap:8px}
+  .nav-brand-name{font-size:15px}
+  .nav-brand-slogan{display:none}
+  .nav-logo-img{width:42px;height:42px}
+  .hamburger{display:flex!important}
+  .nav-top-btns,.nav-links{display:none!important}
+}
+/* ══ GOOGLE BTN ══ */
+.auth-divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--text3);font-size:11px;font-weight:700;letter-spacing:.06em}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:rgba(139,46,26,.12)}
+.btn-google{width:100%;padding:12px;border-radius:11px;background:#fff;color:#444;font-size:12.5px;font-weight:800;font-family:'Montserrat',sans-serif;border:1.5px solid rgba(0,0,0,.14);cursor:pointer;transition:all .3s;letter-spacing:.04em;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:4px}
+.btn-google:hover{background:#f8f8f8;box-shadow:0 4px 18px rgba(0,0,0,.1);transform:translateY(-1px)}
+.btn-google svg{width:18px;height:18px;flex-shrink:0}
+/* ══ DASHBOARD ══ */
+.dash-overlay{position:fixed;inset:0;background:rgba(28,13,5,.55);backdrop-filter:blur(8px);z-index:10000;display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto}
+.dash-overlay.open{display:flex;animation:fadeUp .3s ease both}
+.dash-box{background:var(--bg2);border:1px solid rgba(255,255,255,.70);border-radius:22px;box-shadow:0 24px 80px rgba(139,46,26,.22);width:100%;max-width:760px;overflow:hidden;position:relative;margin:auto;animation:fadeUp .35s ease both}
+.dash-head{background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;padding:22px 28px;display:flex;align-items:center;justify-content:space-between}
+.dash-head h2{font-size:18px;font-weight:900;letter-spacing:.04em}
+.dash-head p{font-size:11px;opacity:.8;margin-top:2px}
+.dash-close{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:50%;width:34px;height:34px;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+.dash-close:hover{background:rgba(255,255,255,.28)}
+.dash-body{padding:24px 28px}
+.dash-empty{text-align:center;padding:40px 20px;color:var(--text2)}
+.dash-empty .dash-empty-ico{font-size:48px;margin-bottom:14px}
+.dash-empty h3{font-size:16px;font-weight:800;color:var(--text);margin-bottom:8px}
+.dash-empty p{font-size:13px;line-height:1.65}
+/* Application card */
+.app-card{background:rgba(255,255,255,.5);border:1px solid rgba(139,46,26,.12);border-radius:var(--r);padding:20px;margin-bottom:16px;transition:all .3s}
+.app-card:hover{border-color:var(--pri-b);box-shadow:0 8px 30px rgba(139,46,26,.08)}
+.app-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px}
+.app-card-title{font-size:14px;font-weight:900;color:var(--text);margin-bottom:4px}
+.app-card-sub{font-size:11.5px;color:var(--text2)}
+.app-status-tag{font-size:9px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;padding:4px 12px;flex-shrink:0}
+.tag-processing{background:rgba(234,179,8,.15);color:#b45309;border:1px solid rgba(234,179,8,.3)}
+.tag-pending{background:rgba(59,130,246,.12);color:#1d4ed8;border:1px solid rgba(59,130,246,.25)}
+.tag-pre-admission{background:rgba(139,92,246,.12);color:#6d28d9;border:1px solid rgba(139,92,246,.25)}
+.tag-admission{background:rgba(34,197,94,.12);color:#15803d;border:1px solid rgba(34,197,94,.25)}
+/* Step tracker */
+.step-track{display:flex;align-items:center;gap:0;position:relative}
+.step-track::before{content:'';position:absolute;top:14px;left:14px;right:14px;height:2px;background:rgba(139,46,26,.12);z-index:0}
+.step-item{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1}
+.step-dot{width:28px;height:28px;border-radius:50%;border:2.5px solid rgba(139,46,26,.2);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:var(--text3);transition:all .5s;margin-bottom:6px;flex-shrink:0}
+.step-dot.done{background:var(--pri);border-color:var(--pri);color:#fff}
+.step-dot.active{background:var(--gold);border-color:var(--gold);color:#fff;animation:stepPulse 1.8s ease-in-out infinite}
+.step-dot.loading{background:rgba(196,144,58,.18);border-color:var(--gold);color:var(--gold)}
+@keyframes stepPulse{0%,100%{box-shadow:0 0 0 0 rgba(196,144,58,.5)}50%{box-shadow:0 0 0 8px rgba(196,144,58,0)}}
+.step-line{position:absolute;top:13px;left:calc(50% + 14px);right:calc(-50% + 14px);height:2px;background:rgba(139,46,26,.12);z-index:-1}
+.step-label{font-size:9px;font-weight:800;color:var(--text3);letter-spacing:.05em;text-align:center;text-transform:uppercase;line-height:1.3;max-width:58px}
+.step-label.active{color:var(--gold)}
+.step-label.done{color:var(--pri)}
+/* Admin panel extras */
+.admin-badge{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#e2b96b;font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;border-radius:100px;padding:3px 10px;border:1px solid rgba(226,185,107,.3)}
+.admin-table{width:100%;border-collapse:collapse;margin-top:16px}
+.admin-table th{font-size:9.5px;font-weight:900;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;padding:8px 12px;border-bottom:2px solid rgba(139,46,26,.12);text-align:left}
+.admin-table td{font-size:12px;padding:10px 12px;border-bottom:1px solid rgba(139,46,26,.06);color:var(--text);vertical-align:middle}
+.admin-table tr:hover td{background:rgba(139,46,26,.03)}
+.status-select{font-size:11px;font-weight:700;font-family:'Montserrat',sans-serif;border:1.5px solid var(--pri-b);border-radius:8px;padding:4px 8px;color:var(--pri);background:var(--pri-dim);cursor:pointer;outline:none}
+/* Apply form in dashboard */
+.apply-form{background:rgba(255,255,255,.45);border:1px solid rgba(139,46,26,.12);border-radius:var(--r);padding:22px;margin-top:18px}
+.apply-form h3{font-size:15px;font-weight:900;color:var(--pri);margin-bottom:16px}
+.apply-fg{margin-bottom:13px}
+.apply-fg label{display:block;font-size:10px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.apply-fg input,.apply-fg select,.apply-fg textarea{width:100%;background:rgba(255,255,255,.7);border:1px solid rgba(139,46,26,.16);border-radius:9px;padding:11px 14px;color:var(--text);font-family:'Montserrat',sans-serif;font-size:13px;font-weight:500;outline:none;transition:all .3s;-webkit-appearance:none}
+.apply-fg input:focus,.apply-fg select:focus,.apply-fg textarea:focus{border-color:var(--pri);background:#fff;box-shadow:0 0 0 3px rgba(139,46,26,.08)}
+.apply-fg select option{background:#F2EBE3}
+.apply-fg textarea{resize:vertical;min-height:80px}
+@media(max-width:600px){
+  .dash-body{padding:18px 16px}
+  .dash-head{padding:18px 20px}
+  .step-label{font-size:8px;max-width:46px}
+  .step-dot{width:24px;height:24px;font-size:10px}
+  .admin-table{display:block;overflow-x:auto}
+}
 /* ══ AI CHAT WIDGET ══ */
 .chat-bubble{position:fixed;bottom:26px;right:26px;width:58px;height:58px;background:linear-gradient(135deg,var(--pri),var(--gold));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;z-index:9500;box-shadow:0 8px 36px rgba(139,46,26,.4);transition:transform .3s,box-shadow .3s;border:none;animation:floatB 4s ease-in-out infinite}
 .chat-bubble:hover{transform:scale(1.12);box-shadow:0 14px 46px rgba(139,46,26,.5)}
@@ -589,6 +666,11 @@ body{-webkit-tap-highlight-color:transparent}
     <div class="auth-body" id="panelSignIn">
       <h3>Welcome Back 👋</h3>
       <p>Sign in to your Lumos Sphere Edu student account</p>
+      <button class="btn-google" onclick="doGoogleSignIn()">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continue with Google
+      </button>
+      <div class="auth-divider">or sign in with email</div>
       <div class="auth-fg"><label>Email or Mobile Number</label><input type="text" id="siId" placeholder="email@example.com or 01700000000"></div>
       <div class="auth-fg"><label>Password</label><input type="password" id="siPass" placeholder="Your password"></div>
       <button class="auth-btn" onclick="doSignIn()">Sign In →</button>
@@ -600,6 +682,11 @@ body{-webkit-tap-highlight-color:transparent}
     <div class="auth-body" id="panelSignUp" style="display:none">
       <h3>Create Account 🎓</h3>
       <p>Join thousands of students on their global journey</p>
+      <button class="btn-google" onclick="doGoogleSignIn()">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Sign Up with Google
+      </button>
+      <div class="auth-divider">or sign up with email</div>
       <div class="auth-fg"><label>Full Name</label><input type="text" id="suName" placeholder="Md. Farhan Ahmed"></div>
       <div class="auth-fg"><label>Mobile Number</label><input type="tel" id="suMobile" placeholder="+880 1700 000000"></div>
       <div class="auth-fg"><label>Email Address</label><input type="email" id="suEmail" placeholder="farhan@gmail.com"></div>
@@ -607,6 +694,22 @@ body{-webkit-tap-highlight-color:transparent}
       <button class="auth-btn" onclick="doSignUp()">Create My Account →</button>
       <div class="auth-msg" id="suMsg"></div>
       <p style="text-align:center;margin-top:14px;font-size:12px;color:var(--text2)">Already have an account? <span style="color:var(--pri);font-weight:800;cursor:pointer" onclick="switchTab('signin')">Sign In</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DASHBOARD MODAL ═══ -->
+<div class="dash-overlay" id="dashOverlay">
+  <div class="dash-box">
+    <div class="dash-head">
+      <div>
+        <h2 id="dashTitle">My Dashboard</h2>
+        <p id="dashSubtitle">Track your applications & journey</p>
+      </div>
+      <button class="dash-close" onclick="closeDash()">✕</button>
+    </div>
+    <div class="dash-body" id="dashBody">
+      <div style="text-align:center;padding:30px;color:var(--text2)">Loading...</div>
     </div>
   </div>
 </div>
@@ -619,7 +722,7 @@ body{-webkit-tap-highlight-color:transparent}
   <div class="chat-hdr">
     <div class="chat-hdr-av">🤖</div>
     <div class="chat-hdr-info">
-      <div class="chat-hdr-title">Lumos AI Counselor</div>
+      <div class="chat-hdr-title">Lumos Sphere AI</div>
       <div class="chat-hdr-status">Online · Powered by Claude</div>
     </div>
     <button class="chat-hdr-close" onclick="toggleChat()">✕</button>
@@ -654,6 +757,7 @@ body{-webkit-tap-highlight-color:transparent}
   <div id="mobUserInfo" style="display:none;flex-direction:column;align-items:center;gap:10px;margin-top:8px">
     <div id="mobUserAvBig" style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--pri),var(--gold));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff">?</div>
     <span id="mobUserNameBig" style="font-size:15px;font-weight:800;color:var(--pri)">Student</span>
+    <button onclick="openDash();closeMob();" class="btn btn-primary" style="padding:9px 24px;font-size:11px">📊 My Dashboard</button>
     <button onclick="doLogout();closeMob();" class="btn btn-outline" style="padding:9px 24px;font-size:11px">🚪 Sign Out</button>
   </div>
 </div>
@@ -679,8 +783,8 @@ body{-webkit-tap-highlight-color:transparent}
           <span id="navUserName">Student</span>
         </div>
         <div class="user-drop" id="userDrop">
-          <button class="user-drop-item">👤 My Profile</button>
-          <button class="user-drop-item">📋 My Applications</button>
+          <button class="user-drop-item" onclick="openDash();toggleDrop()">📊 My Dashboard</button>
+          <button class="user-drop-item" onclick="openDash();toggleDrop()">📋 My Applications</button>
           <button class="user-drop-item logout" onclick="doLogout()">🚪 Sign Out</button>
         </div>
       </div>
@@ -1329,6 +1433,8 @@ const firebaseConfig={
 };
 firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth();
+const db=firebase.firestore();
+const ADMIN_EMAIL="infolumosspehere.edu@gmail.com";
 
 // mobile number ↔ email mapping (localStorage)
 function getMobMap(){try{return JSON.parse(localStorage.getItem("lse_mob")||"{}")}catch{return{}}}
@@ -1363,6 +1469,33 @@ function setMsg(id,text,type){
   el.className="auth-msg "+(type||"");
 }
 
+/* ─── Google Sign-In ─── */
+async function doGoogleSignIn(){
+  const provider=new firebase.auth.GoogleAuthProvider();
+  try{
+    const result=await auth.signInWithPopup(provider);
+    const user=result.user;
+    // Save user profile to Firestore if new
+    const uRef=db.collection("users").doc(user.uid);
+    const snap=await uRef.get();
+    if(!snap.exists){
+      await uRef.set({
+        name:user.displayName||"",
+        email:user.email,
+        createdAt:firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+    closeAuth();
+    setTimeout(()=>openDash(),400);
+  }catch(e){
+    const panel=document.getElementById("panelSignIn").style.display!=="none"?"siMsg":"suMsg";
+    let msg="Google sign-in failed. Please try again.";
+    if(e.code==="auth/popup-closed-by-user")msg="Sign-in popup was closed. Please try again.";
+    if(e.code==="auth/network-request-failed")msg="Network error. Please check your connection.";
+    setMsg(panel,msg,"err");
+  }
+}
+
 async function doSignUp(){
   const name=document.getElementById("suName").value.trim();
   const mobile=document.getElementById("suMobile").value.trim();
@@ -1381,8 +1514,13 @@ async function doSignUp(){
     const map=getMobMap();
     map[cleanMob(mobile)]=email;
     saveMobMap(map);
+    // Save to Firestore
+    await db.collection("users").doc(cred.user.uid).set({
+      name,email,mobile,
+      createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
     setMsg("suMsg","✅ Account created! Welcome, "+name.split(" ")[0]+"! 🎉","ok");
-    setTimeout(()=>{closeAuth();},1200);
+    setTimeout(()=>{closeAuth();openDash();},1200);
   }catch(e){
     let msg="Sign up failed. Please try again.";
     if(e.code==="auth/email-already-in-use")msg="This email is already registered. Try signing in!";
@@ -1414,16 +1552,24 @@ async function doSignIn(){
     }
   }
   try{
+    // Check if user exists first
+    const methods=await auth.fetchSignInMethodsForEmail(email);
+    if(!methods||methods.length===0){
+      setMsg("siMsg","No account found. Please sign up first!","err");
+      document.querySelector("#panelSignIn .auth-btn").disabled=false;
+      return;
+    }
     const cred=await auth.signInWithEmailAndPassword(email,pass);
     const uname=(cred.user.displayName||email).split(" ")[0];
     setMsg("siMsg","✅ Welcome back, "+uname+"!","ok");
-    setTimeout(()=>{closeAuth();},900);
+    setTimeout(()=>{closeAuth();openDash();},900);
   }catch(e){
     let msg="Incorrect credentials. Please try again.";
     if(e.code==="auth/user-not-found")msg="No account found. Please sign up first!";
     if(e.code==="auth/wrong-password")msg="Incorrect password. Please try again.";
     if(e.code==="auth/too-many-requests")msg="Too many attempts. Please wait a moment.";
     if(e.code==="auth/network-request-failed")msg="Network error. Please check your connection.";
+    if(e.code==="auth/invalid-credential")msg="Invalid credentials. Please check and try again.";
     setMsg("siMsg",msg,"err");
   }finally{
     document.querySelector("#panelSignIn .auth-btn").disabled=false;
@@ -1468,7 +1614,193 @@ function updateNavAuth(user){
 // Auth state listener
 auth.onAuthStateChanged(user=>updateNavAuth(user));
 
-/* ═══ AI CHAT COUNSELOR ═══ */
+/* ══════════════════════════════
+   DASHBOARD SYSTEM
+══════════════════════════════ */
+const STATUS_STEPS=["processing","pending","pre-admission","admission"];
+const STATUS_LABELS=["Processing","Pending","Pre-Admission","Admission"];
+const STATUS_ICONS=["⏳","🔄","🎓","✅"];
+
+function getStatusIndex(s){return Math.max(0,STATUS_STEPS.indexOf(s||"processing"))}
+
+function stepTrackHTML(status){
+  const idx=getStatusIndex(status);
+  let html='<div class="step-track">';
+  STATUS_STEPS.forEach((s,i)=>{
+    let cls="step-dot";
+    let lCls="step-label";
+    if(i<idx){cls+=" done";lCls+=" done";}
+    else if(i===idx){cls+=" active";lCls+=" active";}
+    html+=`<div class="step-item">
+      <div class="${cls}">${i<idx?"✓":STATUS_ICONS[i]}</div>
+      <div class="${lCls}">${STATUS_LABELS[i]}</div>
+    </div>`;
+  });
+  html+='</div>';
+  return html;
+}
+
+function tagHTML(status){
+  const map={processing:"tag-processing",pending:"tag-pending","pre-admission":"tag-pre-admission",admission:"tag-admission"};
+  const labels={processing:"Processing",pending:"Pending","pre-admission":"Pre-Admission",admission:"Admitted ✅"};
+  const cls=map[status]||"tag-processing";
+  return `<span class="app-status-tag ${cls}">${labels[status]||"Processing"}</span>`;
+}
+
+function applyFormHTML(){
+  return `<div class="apply-form" id="applyFormWrap">
+    <h3>🎓 Apply for University Admission</h3>
+    <div class="apply-fg"><label>Full Name</label><input type="text" id="applyName" placeholder="Md. Farhan Ahmed"></div>
+    <div class="apply-fg"><label>Desired Country</label>
+      <select id="applyCountry">
+        <option value="">Select country...</option>
+        <option>United Kingdom 🇬🇧</option><option>United States 🇺🇸</option><option>Canada 🇨🇦</option>
+        <option>Australia 🇦🇺</option><option>Germany 🇩🇪</option><option>Netherlands 🇳🇱</option>
+        <option>China 🇨🇳</option><option>Malaysia 🇲🇾</option><option>Singapore 🇸🇬</option>
+        <option>Japan 🇯🇵</option><option>Italy 🇮🇹</option><option>Sweden 🇸🇪</option>
+      </select>
+    </div>
+    <div class="apply-fg"><label>Desired Program / Subject</label><input type="text" id="applyProgram" placeholder="e.g. MSc Computer Science"></div>
+    <div class="apply-fg"><label>IELTS / English Score (optional)</label><input type="text" id="applyIelts" placeholder="e.g. IELTS 6.5"></div>
+    <div class="apply-fg"><label>Additional Notes</label><textarea id="applyNotes" placeholder="Tell us more about your goals..."></textarea></div>
+    <button class="auth-btn" style="margin-top:4px" onclick="submitApplication()">Submit Application →</button>
+    <div class="auth-msg" id="applyMsg"></div>
+  </div>`;
+}
+
+async function openDash(){
+  const user=auth.currentUser;
+  if(!user){openAuth("signin");return;}
+  document.getElementById("dashOverlay").classList.add("open");
+  document.body.style.overflow="hidden";
+  const isAdmin=(user.email===ADMIN_EMAIL);
+  const dashBody=document.getElementById("dashBody");
+  if(isAdmin){
+    document.getElementById("dashTitle").innerHTML='Admin Panel <span class="admin-badge">ADMIN</span>';
+    document.getElementById("dashSubtitle").textContent="Manage all student applications";
+    dashBody.innerHTML='<div style="text-align:center;padding:30px;color:var(--text2)">Loading applications...</div>';
+    try{
+      const snap=await db.collection("applications").orderBy("createdAt","desc").get();
+      if(snap.empty){
+        dashBody.innerHTML='<div class="dash-empty"><div class="dash-empty-ico">📭</div><h3>No Applications Yet</h3><p>Student applications will appear here.</p></div>';
+        return;
+      }
+      let rows='';
+      snap.forEach(doc=>{
+        const d=doc.data();
+        const date=d.createdAt?.toDate?d.createdAt.toDate().toLocaleDateString("en-GB"):"—";
+        rows+=`<tr>
+          <td><strong>${d.applicantName||"—"}</strong><br><span style="font-size:10px;color:var(--text2)">${d.userEmail||""}</span></td>
+          <td>${d.country||"—"}</td>
+          <td>${d.program||"—"}</td>
+          <td>${date}</td>
+          <td>
+            <select class="status-select" onchange="updateStatus('${doc.id}',this.value)">
+              ${STATUS_STEPS.map(s=>`<option value="${s}"${d.status===s?" selected":""}>${STATUS_LABELS[STATUS_STEPS.indexOf(s)]}</option>`).join("")}
+            </select>
+          </td>
+        </tr>`;
+      });
+      dashBody.innerHTML=`
+        <div style="overflow-x:auto">
+          <table class="admin-table">
+            <thead><tr><th>Student</th><th>Country</th><th>Program</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>`;
+    }catch(err){
+      dashBody.innerHTML='<div class="dash-empty"><div class="dash-empty-ico">⚠️</div><h3>Error loading data</h3><p>'+err.message+'</p></div>';
+    }
+  }else{
+    document.getElementById("dashTitle").textContent="My Dashboard";
+    document.getElementById("dashSubtitle").textContent="Track your applications & journey";
+    dashBody.innerHTML='<div style="text-align:center;padding:30px;color:var(--text2)">Loading your applications...</div>';
+    try{
+      const snap=await db.collection("applications").where("userId","==",user.uid).orderBy("createdAt","desc").get();
+      let html='';
+      if(!snap.empty){
+        snap.forEach(doc=>{
+          const d=doc.data();
+          const date=d.createdAt?.toDate?d.createdAt.toDate().toLocaleDateString("en-GB"):"—";
+          html+=`<div class="app-card">
+            <div class="app-card-top">
+              <div>
+                <div class="app-card-title">🎓 ${d.program||"Application"} — ${d.country||""}</div>
+                <div class="app-card-sub">Submitted: ${date} &nbsp;|&nbsp; IELTS: ${d.ielts||"N/A"}</div>
+              </div>
+              ${tagHTML(d.status)}
+            </div>
+            ${stepTrackHTML(d.status)}
+            ${d.notes?`<div style="margin-top:12px;font-size:12px;color:var(--text2);padding:10px;background:rgba(139,46,26,.04);border-radius:9px;border:1px solid rgba(139,46,26,.08)">${d.notes}</div>`:''}
+          </div>`;
+        });
+      }else{
+        html=`<div class="dash-empty">
+          <div class="dash-empty-ico">📋</div>
+          <h3>No Applications Yet</h3>
+          <p>Submit your first application below and our team will get back to you soon!</p>
+        </div>`;
+      }
+      html+=applyFormHTML();
+      dashBody.innerHTML=html;
+      // Pre-fill name
+      const nameField=document.getElementById("applyName");
+      if(nameField&&user.displayName)nameField.value=user.displayName;
+    }catch(err){
+      dashBody.innerHTML='<div class="dash-empty"><div class="dash-empty-ico">⚠️</div><h3>Error</h3><p>'+err.message+'</p></div>'+applyFormHTML();
+    }
+  }
+}
+
+function closeDash(){
+  document.getElementById("dashOverlay").classList.remove("open");
+  document.body.style.overflow="";
+}
+document.getElementById("dashOverlay").addEventListener("click",function(e){
+  if(e.target===this)closeDash();
+});
+
+async function submitApplication(){
+  const user=auth.currentUser;
+  if(!user)return;
+  const name=document.getElementById("applyName")?.value.trim();
+  const country=document.getElementById("applyCountry")?.value;
+  const program=document.getElementById("applyProgram")?.value.trim();
+  const ielts=document.getElementById("applyIelts")?.value.trim();
+  const notes=document.getElementById("applyNotes")?.value.trim();
+  const msgEl=document.getElementById("applyMsg");
+  if(!name){msgEl.textContent="Enter your name.";msgEl.className="auth-msg err";return;}
+  if(!country){msgEl.textContent="Select a country.";msgEl.className="auth-msg err";return;}
+  if(!program){msgEl.textContent="Enter your desired program.";msgEl.className="auth-msg err";return;}
+  msgEl.textContent="Submitting...";msgEl.className="auth-msg";
+  try{
+    await db.collection("applications").add({
+      userId:user.uid,
+      userEmail:user.email,
+      applicantName:name,
+      country,program,
+      ielts:ielts||"N/A",
+      notes:notes||"",
+      status:"processing",
+      createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    msgEl.textContent="✅ Application submitted! Our team will contact you soon.";
+    msgEl.className="auth-msg ok";
+    setTimeout(()=>openDash(),2000);
+  }catch(err){
+    msgEl.textContent="Error: "+err.message;
+    msgEl.className="auth-msg err";
+  }
+}
+
+async function updateStatus(docId,newStatus){
+  try{
+    await db.collection("applications").doc(docId).update({status:newStatus});
+  }catch(e){alert("Error updating status: "+e.message);}
+}
+
+// init on load
+updateNavAuth(null);
 let chatHistory=[];
 let chatOpen=false;
 const CHAT_SYS=`You are a warm, knowledgeable educational counselor at Lumos Sphere Edu — Bangladesh's leading international student consultancy. Help students with:
@@ -1525,8 +1857,6 @@ async function sendChat(){
   }
   msgs.scrollTop=msgs.scrollHeight;
 }
-// init on load
-updateNavAuth(null);
 </script>
 </body>
 </html>
