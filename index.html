@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Lumos Sphere Edu — A Trusted Consultancy</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#8B2E1A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -466,8 +470,105 @@ footer{background:linear-gradient(180deg,var(--bg3),#C8B9A8);border-top:1px soli
 .user-drop.open{display:block;animation:fadeUp .2s ease both}
 .user-drop-item{padding:10px 18px;font-size:12px;font-weight:700;color:var(--text);cursor:pointer;transition:background .2s;display:block;text-align:left;background:none;border:none;width:100%;font-family:'Montserrat',sans-serif;letter-spacing:.04em}
 .user-drop-item:hover{background:var(--pri-dim);color:var(--pri)}
-.user-drop-item.logout{color:#c62828}
-.user-wrap{position:relative}
+/* ══ MOBILE PERFORMANCE & SMOOTH ══ */
+html{-webkit-overflow-scrolling:touch;overscroll-behavior:none}
+body{-webkit-tap-highlight-color:transparent}
+*{-webkit-font-smoothing:antialiased}
+.btn,.svc-card,.dest-card,.test-card,.ach-card,.uni-card,.visa-card,.faq-item,.feat-item{will-change:transform}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+@media(max-width:768px){
+  html{scroll-behavior:smooth}
+  body{cursor:auto}
+  #cur{display:none!important}
+  .gs{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;display:none}
+  section{padding:52px 0}
+  .wrap{padding:0 16px}
+  .hero{padding:108px 0 54px}
+  .hero-title{font-size:clamp(26px,7.5vw,46px);line-height:1.08}
+  .hero-sub{font-size:13.5px;margin-bottom:26px}
+  .hero-globe-wrap{width:280px!important;height:280px!important;margin-bottom:22px}
+  .globe-logo{width:126px!important;height:126px!important}
+  .globe-outer-glow{width:340px!important;height:340px!important}
+  .globe-glow-ring{width:258px!important;height:258px!important}
+  .btn-lg{padding:12px 26px;font-size:12px}
+  .hero-cta-wrap{gap:10px;margin-bottom:32px}
+  .hero-stats{grid-template-columns:repeat(3,1fr)!important;max-width:100%}
+  .hs-n{font-size:20px}
+  .hs-l{font-size:9px}
+  .sec-head{margin-bottom:36px}
+  .sec-head h2{font-size:clamp(18px,5vw,30px)}
+  .sec-head p{font-size:13px}
+  .svc-grid{grid-template-columns:1fr}
+  .svc-card{padding:22px 18px}
+  .dest-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .dest-card{padding:20px 12px}
+  .steps-row{grid-template-columns:1fr 1fr;gap:18px}
+  .why-grid{grid-template-columns:1fr;gap:32px}
+  .test-grid{grid-template-columns:1fr}
+  .visa-grid{grid-template-columns:1fr}
+  .uni-grid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .uni-card{padding:12px}
+  .contact-grid{grid-template-columns:1fr;gap:24px}
+  .c-form{padding:20px 16px}
+  .f-row{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr;gap:22px}
+  .foot-brand p{max-width:100%}
+  .ach-grid{grid-template-columns:1fr 1fr}
+  .cta-banner{padding:36px 16px}
+  .cta-banner h2{font-size:clamp(18px,5vw,28px)}
+  .nav-top{padding:10px 14px 0}
+  .nav-brand-name{font-size:16px}
+  .auth-body{padding:20px 16px 24px}
+  .auth-box{max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .foot-bottom{flex-direction:column;gap:8px;text-align:center}
+}
+@media(max-width:380px){
+  .dest-grid{grid-template-columns:1fr 1fr}
+  .hero-stats{grid-template-columns:1fr!important}
+  .steps-row{grid-template-columns:1fr}
+  .ach-card.feat{grid-column:span 1}
+}
+
+/* ══ AI CHAT WIDGET ══ */
+.chat-bubble{position:fixed;bottom:26px;right:26px;width:58px;height:58px;background:linear-gradient(135deg,var(--pri),var(--gold));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;z-index:9500;box-shadow:0 8px 36px rgba(139,46,26,.4);transition:transform .3s,box-shadow .3s;border:none;animation:floatB 4s ease-in-out infinite}
+.chat-bubble:hover{transform:scale(1.12);box-shadow:0 14px 46px rgba(139,46,26,.5)}
+.chat-badge{position:absolute;top:-3px;right:-3px;background:#fff;color:var(--pri);font-size:8px;font-weight:900;padding:2px 6px;border-radius:100px;border:1.5px solid var(--pri);letter-spacing:.04em;pointer-events:none}
+.chat-window{position:fixed;bottom:98px;right:26px;width:348px;max-height:508px;background:var(--bg2);border:1px solid rgba(255,255,255,.75);border-radius:22px;box-shadow:0 20px 64px rgba(139,46,26,.22);z-index:9500;display:none;flex-direction:column;overflow:hidden}
+.chat-window.open{display:flex;animation:fadeUp .3s ease both}
+.chat-hdr{padding:14px 18px;background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0}
+.chat-hdr-av{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;border:1.5px solid rgba(255,255,255,.4)}
+.chat-hdr-info{flex:1}
+.chat-hdr-title{font-size:13px;font-weight:800;font-family:'Montserrat',sans-serif}
+.chat-hdr-status{font-size:9px;opacity:.8;margin-top:1px;display:flex;align-items:center;gap:4px}
+.chat-hdr-status::before{content:'';width:5px;height:5px;background:#4ade80;border-radius:50%;flex-shrink:0}
+.chat-hdr-close{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:50%;width:28px;height:28px;color:#fff;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;font-family:'Montserrat',sans-serif}
+.chat-hdr-close:hover{background:rgba(255,255,255,.28)}
+.chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px;min-height:0;-webkit-overflow-scrolling:touch}
+.chat-msg{display:flex;animation:fadeUp .22s ease both}
+.chat-msg.bot .msg-bbl{background:var(--pri-dim);border:1px solid var(--pri-b);border-radius:3px 14px 14px 14px;color:var(--text)}
+.chat-msg.user{justify-content:flex-end}
+.chat-msg.user .msg-bbl{background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;border-radius:14px 3px 14px 14px}
+.msg-bbl{padding:9px 13px;font-size:12px;line-height:1.68;max-width:88%;font-family:'Montserrat',sans-serif;font-weight:500}
+.chat-inp-wrap{padding:10px;border-top:1px solid rgba(139,46,26,.1);display:flex;gap:7px;flex-shrink:0;background:var(--bg2)}
+.chat-inp-wrap input{flex:1;background:rgba(255,255,255,.6);border:1px solid rgba(139,46,26,.14);border-radius:100px;padding:9px 15px;font-size:12px;font-family:'Montserrat',sans-serif;outline:none;transition:border-color .2s;min-width:0}
+.chat-inp-wrap input:focus{border-color:var(--pri);background:rgba(255,255,255,.8)}
+.chat-send{width:36px;height:36px;min-width:36px;border-radius:50%;background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;border:none;font-size:14px;cursor:pointer;transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center}
+.chat-send:hover{transform:scale(1.1);box-shadow:0 4px 14px rgba(139,46,26,.3)}
+.typing-dots{display:flex;gap:4px;align-items:center;padding:4px 0}
+.typing-dots span{width:6px;height:6px;background:var(--pri);border-radius:50%;animation:tdot .9s infinite}
+.typing-dots span:nth-child(2){animation-delay:.15s}
+.typing-dots span:nth-child(3){animation-delay:.3s}
+@keyframes tdot{0%,80%,100%{transform:scale(0.6);opacity:.45}40%{transform:scale(1);opacity:1}}
+.chat-suggestions{display:flex;flex-wrap:wrap;gap:5px;padding:8px 14px;border-top:1px solid rgba(139,46,26,.08);flex-shrink:0}
+.chat-sug{font-size:10px;font-weight:700;color:var(--pri);background:var(--pri-dim);border:1px solid var(--pri-b);border-radius:100px;padding:4px 10px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s;white-space:nowrap}
+.chat-sug:hover{background:rgba(139,46,26,.18)}
+@media(max-width:480px){
+  .chat-window{width:calc(100vw - 16px);right:8px;bottom:84px;max-height:70vh}
+  .chat-bubble{bottom:16px;right:16px;width:52px;height:52px;font-size:20px}
+}
 </style>
 </head>
 <body>
@@ -510,6 +611,34 @@ footer{background:linear-gradient(180deg,var(--bg3),#C8B9A8);border-top:1px soli
   </div>
 </div>
 
+<!-- AI CHAT WIDGET -->
+<button class="chat-bubble" id="chatBubble" onclick="toggleChat()" aria-label="Open AI Counselor Chat">
+  🎓<span class="chat-badge">AI</span>
+</button>
+<div class="chat-window" id="chatWindow" role="dialog" aria-label="AI Counselor">
+  <div class="chat-hdr">
+    <div class="chat-hdr-av">🤖</div>
+    <div class="chat-hdr-info">
+      <div class="chat-hdr-title">Lumos AI Counselor</div>
+      <div class="chat-hdr-status">Online · Powered by Claude</div>
+    </div>
+    <button class="chat-hdr-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-msgs" id="chatMsgs">
+    <div class="chat-msg bot"><div class="msg-bbl">👋 Hi! I'm your Lumos Sphere AI Counselor. Ask me anything — study abroad options, visa requirements, scholarships, IELTS tips, or university applications!<br><br>আপনি বাংলায়ও জিজ্ঞেস করতে পারেন! 🇧🇩</div></div>
+  </div>
+  <div class="chat-suggestions" id="chatSugs">
+    <button class="chat-sug" onclick="sugChat(this)">🇬🇧 UK কিভাবে যাবো?</button>
+    <button class="chat-sug" onclick="sugChat(this)">📚 IELTS Score?</button>
+    <button class="chat-sug" onclick="sugChat(this)">💰 Scholarship Tips</button>
+    <button class="chat-sug" onclick="sugChat(this)">🇨🇦 Canada PR?</button>
+  </div>
+  <div class="chat-inp-wrap">
+    <input type="text" id="chatInput" placeholder="Ask about studying abroad…" onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="chat-send" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
 <!-- MOBILE MENU -->
 <div class="mob-menu" id="mobMenu">
   <button class="mob-close" id="mobClose">✕</button>
@@ -518,7 +647,15 @@ footer{background:linear-gradient(180deg,var(--bg3),#C8B9A8);border-top:1px soli
   <a href="#destinations" onclick="closeMob()">Destinations</a>
   <a href="#universities" onclick="closeMob()">Universities</a>
   <a href="#contact" onclick="closeMob()">About Us</a>
-  <a href="#contact" onclick="closeMob()" class="btn btn-primary" style="margin-top:8px">Apply Now</a>
+  <div id="mobAuthBtns" style="display:flex;flex-direction:column;gap:12px;margin-top:8px;align-items:center">
+    <a href="#" class="btn btn-glass" style="padding:11px 32px;font-size:12px" onclick="openAuth('signin');closeMob();return false">Login</a>
+    <a href="#" class="btn btn-primary" style="padding:11px 32px;font-size:12px" onclick="openAuth('signup');closeMob();return false">Sign Up Free</a>
+  </div>
+  <div id="mobUserInfo" style="display:none;flex-direction:column;align-items:center;gap:10px;margin-top:8px">
+    <div id="mobUserAvBig" style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--pri),var(--gold));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff">?</div>
+    <span id="mobUserNameBig" style="font-size:15px;font-weight:800;color:var(--pri)">Student</span>
+    <button onclick="doLogout();closeMob();" class="btn btn-outline" style="padding:9px 24px;font-size:11px">🚪 Sign Out</button>
+  </div>
 </div>
 
 <!-- ═══════════ NAVBAR ═══════════ -->
@@ -831,8 +968,8 @@ footer{background:linear-gradient(180deg,var(--bg3),#C8B9A8);border-top:1px soli
         <h2 style="font-size:clamp(22px,2.7vw,32px);font-weight:900;color:var(--text);margin-bottom:13px">Book a <span style="color:var(--pri)">Free Expert<br>Consultation</span></h2>
         <p style="font-size:15px;color:var(--text2);line-height:1.74">Our expert counselors will assess your profile, answer all your questions, and map out a personalized roadmap to your dream university — at zero cost and zero obligation.</p>
         <div class="c-details">
-          <div class="c-item"><div class="c-ico">📧</div><div><h4>Email</h4><p>infolumosspheredu.edu@gmail.com</p></div></div>
-          <div class="c-item"><div class="c-ico">📞</div><div><h4>Phone / WhatsApp</h4><p>+880 1918-523104</p></div></div>
+          <div class="c-item"><div class="c-ico">📧</div><div><h4>Email</h4><p>info@lumosspheredu.com</p></div></div>
+          <div class="c-item"><div class="c-ico">📞</div><div><h4>Phone / WhatsApp</h4><p>+880 1800-000000</p></div></div>
           <div class="c-item"><div class="c-ico">📍</div><div><h4>Office Address</h4><p>House 12, Road 5, Dhanmondi, Dhaka 1205</p></div></div>
           <div class="c-item"><div class="c-ico">🕐</div><div><h4>Office Hours</h4><p>Sun – Thu: 9:00 AM – 7:00 PM</p></div></div>
         </div>
@@ -1180,15 +1317,23 @@ document.querySelectorAll(".tilt").forEach(card=>{
   });
 });
 
-/* ═══ AUTH SYSTEM ═══ */
-const LS_USERS = "lse_users";
-const LS_SESSION = "lse_session";
+/* ═══ FIREBASE AUTH SYSTEM ═══ */
+const firebaseConfig={
+  apiKey:"AIzaSyA10niFyoT2hTfV3gGIG0bv53OdOl1HWgw",
+  authDomain:"lumossphereedu.firebaseapp.com",
+  projectId:"lumossphereedu",
+  storageBucket:"lumossphereedu.firebasestorage.app",
+  messagingSenderId:"189130722497",
+  appId:"1:189130722497:web:141b710e932ea29871d840",
+  measurementId:"G-C1GV7F991W"
+};
+firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth();
 
-function getUsers(){ try{return JSON.parse(localStorage.getItem(LS_USERS)||"[]")}catch{return[]} }
-function saveUsers(u){ localStorage.setItem(LS_USERS,JSON.stringify(u)) }
-function getSession(){ try{return JSON.parse(localStorage.getItem(LS_SESSION)||"null")}catch{return null} }
-function saveSession(u){ localStorage.setItem(LS_SESSION,JSON.stringify(u)) }
-function clearSession(){ localStorage.removeItem(LS_SESSION) }
+// mobile number ↔ email mapping (localStorage)
+function getMobMap(){try{return JSON.parse(localStorage.getItem("lse_mob")||"{}")}catch{return{}}}
+function saveMobMap(m){localStorage.setItem("lse_mob",JSON.stringify(m))}
+function cleanMob(m){return m.replace(/[\s\-\+\(\)]/g,"")}
 
 function openAuth(tab){
   document.getElementById("authOverlay").classList.add("open");
@@ -1200,61 +1345,93 @@ function closeAuth(){
   document.body.style.overflow="";
 }
 document.getElementById("authOverlay").addEventListener("click",function(e){
-  if(e.target===this) closeAuth();
+  if(e.target===this)closeAuth();
 });
 
 function switchTab(t){
-  document.getElementById("panelSignIn").style.display = t==="signin"?"block":"none";
-  document.getElementById("panelSignUp").style.display = t==="signup"?"block":"none";
-  document.getElementById("tabSignIn").classList.toggle("active", t==="signin");
-  document.getElementById("tabSignUp").classList.toggle("active", t==="signup");
+  document.getElementById("panelSignIn").style.display=t==="signin"?"block":"none";
+  document.getElementById("panelSignUp").style.display=t==="signup"?"block":"none";
+  document.getElementById("tabSignIn").classList.toggle("active",t==="signin");
+  document.getElementById("tabSignUp").classList.toggle("active",t==="signup");
   document.getElementById("siMsg").textContent="";
   document.getElementById("suMsg").textContent="";
 }
 
-function setMsg(id, text, type){
+function setMsg(id,text,type){
   const el=document.getElementById(id);
   el.textContent=text;
   el.className="auth-msg "+(type||"");
 }
 
-function doSignUp(){
+async function doSignUp(){
   const name=document.getElementById("suName").value.trim();
   const mobile=document.getElementById("suMobile").value.trim();
   const email=document.getElementById("suEmail").value.trim().toLowerCase();
   const pass=document.getElementById("suPass").value;
-  if(!name){return setMsg("suMsg","Please enter your full name.","err")}
-  if(!mobile){return setMsg("suMsg","Please enter your mobile number.","err")}
-  if(!/^\+?[\d\s\-]{7,15}$/.test(mobile)){return setMsg("suMsg","Enter a valid mobile number.","err")}
-  if(!email||!email.includes("@")){return setMsg("suMsg","Enter a valid email address.","err")}
-  if(pass.length<6){return setMsg("suMsg","Password must be at least 6 characters.","err")}
-  const users=getUsers();
-  if(users.find(u=>u.email===email)){return setMsg("suMsg","This email is already registered.","err")}
-  if(users.find(u=>u.mobile===mobile)){return setMsg("suMsg","This mobile number is already registered.","err")}
-  const user={name,mobile,email,pass};
-  users.push(user);
-  saveUsers(users);
-  saveSession(user);
-  setMsg("suMsg","✅ Account created! Signing you in…","ok");
-  setTimeout(()=>{closeAuth();updateNavAuth();},1000);
+  if(!name)return setMsg("suMsg","Please enter your full name.","err");
+  if(!mobile)return setMsg("suMsg","Please enter your mobile number.","err");
+  if(!/^\+?[\d\s\-\(\)]{7,16}$/.test(mobile))return setMsg("suMsg","Enter a valid mobile number.","err");
+  if(!email||!email.includes("@"))return setMsg("suMsg","Enter a valid email address.","err");
+  if(pass.length<6)return setMsg("suMsg","Password must be at least 6 characters.","err");
+  setMsg("suMsg","Creating your account…","");
+  document.querySelector("#panelSignUp .auth-btn").disabled=true;
+  try{
+    const cred=await auth.createUserWithEmailAndPassword(email,pass);
+    await cred.user.updateProfile({displayName:name});
+    const map=getMobMap();
+    map[cleanMob(mobile)]=email;
+    saveMobMap(map);
+    setMsg("suMsg","✅ Account created! Welcome, "+name.split(" ")[0]+"! 🎉","ok");
+    setTimeout(()=>{closeAuth();},1200);
+  }catch(e){
+    let msg="Sign up failed. Please try again.";
+    if(e.code==="auth/email-already-in-use")msg="This email is already registered. Try signing in!";
+    if(e.code==="auth/weak-password")msg="Password must be at least 6 characters.";
+    if(e.code==="auth/invalid-email")msg="Please enter a valid email address.";
+    if(e.code==="auth/network-request-failed")msg="Network error. Please check your connection.";
+    setMsg("suMsg",msg,"err");
+  }finally{
+    document.querySelector("#panelSignUp .auth-btn").disabled=false;
+  }
 }
 
-function doSignIn(){
-  const id=document.getElementById("siId").value.trim().toLowerCase();
+async function doSignIn(){
+  let id=document.getElementById("siId").value.trim();
   const pass=document.getElementById("siPass").value;
-  if(!id){return setMsg("siMsg","Enter your email or mobile number.","err")}
-  if(!pass){return setMsg("siMsg","Enter your password.","err")}
-  const users=getUsers();
-  const user=users.find(u=>(u.email===id||u.mobile===id)&&u.pass===pass);
-  if(!user){return setMsg("siMsg","Incorrect credentials. Please try again.","err")}
-  saveSession(user);
-  setMsg("siMsg","✅ Welcome back, "+user.name.split(" ")[0]+"!","ok");
-  setTimeout(()=>{closeAuth();updateNavAuth();},900);
+  if(!id)return setMsg("siMsg","Enter your email or mobile number.","err");
+  if(!pass)return setMsg("siMsg","Enter your password.","err");
+  setMsg("siMsg","Signing you in…","");
+  document.querySelector("#panelSignIn .auth-btn").disabled=true;
+  let email=id.toLowerCase();
+  // if it looks like a phone number, look up the email
+  if(!/\@/.test(id)){
+    const map=getMobMap();
+    email=map[cleanMob(id)];
+    if(!email){
+      setMsg("siMsg","Mobile number not found. Please sign up first or use your email.","err");
+      document.querySelector("#panelSignIn .auth-btn").disabled=false;
+      return;
+    }
+  }
+  try{
+    const cred=await auth.signInWithEmailAndPassword(email,pass);
+    const uname=(cred.user.displayName||email).split(" ")[0];
+    setMsg("siMsg","✅ Welcome back, "+uname+"!","ok");
+    setTimeout(()=>{closeAuth();},900);
+  }catch(e){
+    let msg="Incorrect credentials. Please try again.";
+    if(e.code==="auth/user-not-found")msg="No account found. Please sign up first!";
+    if(e.code==="auth/wrong-password")msg="Incorrect password. Please try again.";
+    if(e.code==="auth/too-many-requests")msg="Too many attempts. Please wait a moment.";
+    if(e.code==="auth/network-request-failed")msg="Network error. Please check your connection.";
+    setMsg("siMsg",msg,"err");
+  }finally{
+    document.querySelector("#panelSignIn .auth-btn").disabled=false;
+  }
 }
 
 function doLogout(){
-  clearSession();
-  updateNavAuth();
+  auth.signOut();
   document.getElementById("userDrop").classList.remove("open");
 }
 
@@ -1263,49 +1440,93 @@ function toggleDrop(){
 }
 document.addEventListener("click",function(e){
   const wrap=document.getElementById("navUserWrap");
-  if(wrap&&!wrap.contains(e.target)) document.getElementById("userDrop").classList.remove("open");
+  if(wrap&&!wrap.contains(e.target))document.getElementById("userDrop").classList.remove("open");
 });
 
-function updateNavAuth(){
-  const sess=getSession();
+function updateNavAuth(user){
   const authBtns=document.getElementById("navAuthBtns");
   const userWrap=document.getElementById("navUserWrap");
-  if(sess){
+  const mobAuth=document.getElementById("mobAuthBtns");
+  const mobUser=document.getElementById("mobUserInfo");
+  if(user){
+    const name=user.displayName||user.email.split("@")[0];
+    const initials=name.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase();
     authBtns.style.display="none";
     userWrap.style.display="flex";
-    const initials=sess.name.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase();
     document.getElementById("navUserAv").textContent=initials;
-    document.getElementById("navUserName").textContent=sess.name.split(" ")[0];
-  } else {
+    document.getElementById("navUserName").textContent=name.split(" ")[0];
+    if(mobAuth)mobAuth.style.display="none";
+    if(mobUser){mobUser.style.display="flex";document.getElementById("mobUserAvBig").textContent=initials;document.getElementById("mobUserNameBig").textContent=name.split(" ")[0]}
+  }else{
     authBtns.style.display="flex";
     userWrap.style.display="none";
+    if(mobAuth)mobAuth.style.display="flex";
+    if(mobUser)mobUser.style.display="none";
   }
 }
+
+// Auth state listener
+auth.onAuthStateChanged(user=>updateNavAuth(user));
+
+/* ═══ AI CHAT COUNSELOR ═══ */
+let chatHistory=[];
+let chatOpen=false;
+const CHAT_SYS=`You are a warm, knowledgeable educational counselor at Lumos Sphere Edu — Bangladesh's leading international student consultancy. Help students with:
+- University selection & applications (UK, USA, Canada, Australia, Germany, Malaysia, China, Singapore, Netherlands, Sweden, Japan, Italy)
+- Visa requirements, documentation, and interview tips
+- Scholarship opportunities (merit, need-based, country-specific)
+- IELTS, TOEFL, PTE, SAT, GRE, GMAT preparation
+- SOP and personal statement writing
+- Cost of study, scholarships, and living expenses
+- Career pathways and post-study work options
+Be encouraging, specific, and concise. Recommend booking a free consultation for detailed guidance. Always respond in the SAME language the student uses — if they write in Bengali (বাংলা), respond in Bengali. If English, respond in English.`;
+
+function toggleChat(){
+  chatOpen=!chatOpen;
+  const cw=document.getElementById("chatWindow");
+  if(chatOpen){cw.classList.add("open");document.getElementById("chatInput").focus()}
+  else cw.classList.remove("open");
+}
+
+function sugChat(btn){
+  document.getElementById("chatInput").value=btn.textContent;
+  document.getElementById("chatSugs").style.display="none";
+  sendChat();
+}
+
+async function sendChat(){
+  const input=document.getElementById("chatInput");
+  const msg=input.value.trim();
+  if(!msg)return;
+  input.value="";
+  document.getElementById("chatSugs").style.display="none";
+  const msgs=document.getElementById("chatMsgs");
+  msgs.innerHTML+=`<div class="chat-msg user"><div class="msg-bbl">${msg.replace(/</g,"&lt;")}</div></div>`;
+  const typId="t"+Date.now();
+  msgs.innerHTML+=`<div class="chat-msg bot" id="${typId}"><div class="msg-bbl"><div class="typing-dots"><span></span><span></span><span></span></div></div></div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+  chatHistory.push({role:"user",content:msg});
+  if(chatHistory.length>20)chatHistory=chatHistory.slice(-18);
+  try{
+    const res=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,system:CHAT_SYS,messages:chatHistory})
+    });
+    const data=await res.json();
+    const reply=data.content?.[0]?.text||"Sorry, I couldn't get a response. Please try again!";
+    chatHistory.push({role:"assistant",content:reply});
+    document.getElementById(typId)?.remove();
+    const safe=reply.replace(/</g,"&lt;").replace(/\n\n/g,"</p><p>").replace(/\n/g,"<br>");
+    msgs.innerHTML+=`<div class="chat-msg bot"><div class="msg-bbl"><p>${safe}</p></div></div>`;
+  }catch(e){
+    document.getElementById(typId)?.remove();
+    msgs.innerHTML+=`<div class="chat-msg bot"><div class="msg-bbl">Sorry, I'm having trouble connecting right now. Please call us at <strong>+880 1918-523104</strong> or book a free consultation!</div></div>`;
+  }
+  msgs.scrollTop=msgs.scrollHeight;
+}
 // init on load
-updateNavAuth();
+updateNavAuth(null);
 </script>
 </body>
-  <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyA10niFyoT2hTfV3gGIG0bv53OdOl1HWgw",
-    authDomain: "lumossphereedu.firebaseapp.com",
-    projectId: "lumossphereedu",
-    storageBucket: "lumossphereedu.firebasestorage.app",
-    messagingSenderId: "189130722497",
-    appId: "1:189130722497:web:141b710e932ea29871d840",
-    measurementId: "G-C1GV7F991W"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
 </html>
